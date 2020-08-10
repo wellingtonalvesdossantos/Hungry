@@ -1,5 +1,8 @@
-﻿namespace Hungry.Core
+﻿using Dapper.Contrib.Extensions;
+
+namespace Hungry.Core
 {
+    [Table("PedidoAdendo")]
     public class PedidoAdendo : BaseDbEntity<PedidoAdendo>
     {
         public int PedidoId { get; set; }

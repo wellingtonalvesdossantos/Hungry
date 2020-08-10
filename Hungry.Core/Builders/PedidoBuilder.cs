@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Hungry.Core.Builders
@@ -16,6 +17,7 @@ namespace Hungry.Core.Builders
 
         public Pedido Build()
         {
+            _pedido.Validar();
             var frete = new PedidoAdendo() { AdendoId = Adendo.FRETE, Valor = 0 };
             _pedido.Adendos.Add(frete);
             return _pedido;
@@ -41,7 +43,7 @@ namespace Hungry.Core.Builders
                 {
                     ProdutoId = produto.Id,
                     ValorUnitario = produto.Valor,
-                    Quantidade = 0.75M
+                    Quantidade = 0.7M
                 };
                 _pedido.Itens.Add(item); 
             }

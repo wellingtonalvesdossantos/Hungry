@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Hungry.Test
 {
-    public class Tests
+    public class PedidoBuilderTest
     {
         [SetUp]
         public void Setup()
@@ -30,7 +30,7 @@ namespace Hungry.Test
         [Test]
         public void AdicionarPizzaBrotinho()
         {
-            var produto = Produto.GetById(5);
+            var produto = Produto.GetById(6);
             var cliente = Cliente.GetById(1);
             var builder = new PedidoBuilder("Rua da minha tia, 100", cliente);
 
@@ -40,7 +40,7 @@ namespace Hungry.Test
             var valorTotal = pedido.ObterValorTotal();
 
             //Assert
-            Assert.AreEqual(valorTotal, 41.25);
+            Assert.AreEqual(valorTotal, 31.5);
         }
 
         [Test]
