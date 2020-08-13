@@ -13,9 +13,9 @@ namespace Hungry.Api.Controllers
     public class PedidoController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<Produto> Get()
+        public IEnumerable<Pedido> Get(int clientId)
         {
-            return Produto.GetAll();
+            return Pedido.GetByCustomer(clientId);
         }
     }
 }

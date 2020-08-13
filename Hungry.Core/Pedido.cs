@@ -17,6 +17,8 @@ namespace Hungry.Core
         public int ClienteId { get; set; }
 
         [Write(false)]
+        public Cliente Cliente { get; set; }
+        [Write(false)]
         public List<PedidoItem> Itens { get; set; } = new List<PedidoItem>();
         [Write(false)]
         public List<PedidoAdendo> Adendos { get; set; } = new List<PedidoAdendo>();
@@ -52,7 +54,7 @@ namespace Hungry.Core
                 Itens.Where(x => !x.Quantidade.IsInList(0.7M, 0.5M)).Sum(x => (int)x.Quantidade); //inteiras
         }
 
-        public void Create()
+        public override void Create()
         {
             using (var conn = DbContext.DbConnectionFactory.GetInstance())
             {
@@ -60,6 +62,7 @@ namespace Hungry.Core
                 {
                     try
                     {
+                        if (ClienteId == 0) ClienteId = (int)conn.Insert(Cliente, tr);
                         var id = (int)conn.Insert(this, tr);
                         Itens.ForEach(x => { x.PedidoId = id; conn.Insert(x, tr); });
                         Adendos.ForEach(x => { x.PedidoId = id; conn.Insert(x, tr); });
@@ -84,6 +87,24 @@ namespace Hungry.Core
             }
 
             return pedido;
+        }
+
+        public static IEnumerable<Pedido> GetByCustomer(int clienteId)
+        {
+            var pedidos = new List<Pedido>();
+
+            using (var conn = DbContext.DbConnectionFactory.GetInstance())
+            {
+                var ids = conn.Query<int>("select top 3 id from " + nameof(Pedido) + " where clienteid = @clienteId order by id desc", new { clienteId });
+
+                foreach (var id in ids)
+                {
+                    var pedido = GetFullById(id);
+                    pedidos.Add(pedido); 
+                }
+            }
+        
+            return pedidos;
         }
     }
 }

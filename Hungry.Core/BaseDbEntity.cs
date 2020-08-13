@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Dapper;
+using Dapper.Contrib.Extensions;
 
 namespace Hungry.Core
 {
@@ -22,6 +23,14 @@ namespace Hungry.Core
             using (var conn = DbConnectionFactory.GetInstance())
             {
                 return conn.QueryFirstOrDefault<T>("select * from " + typeof(T).Name + " where id = @id", new { id });
+            }
+        }
+
+        public virtual void Create()
+        {
+            using (var conn = DbContext.DbConnectionFactory.GetInstance())
+            {
+                conn.Insert(this);
             }
         }
     }

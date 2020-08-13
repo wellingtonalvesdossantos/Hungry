@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Hungry.Core
 {
+    [Table("Adendo")]
     class Adendo : BaseDbEntity<Adendo>
     {
         public const int FRETE = 1;

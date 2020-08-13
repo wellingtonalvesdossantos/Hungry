@@ -13,6 +13,7 @@ namespace Hungry.Core.Builders
         {
             _pedido.Endereco = endereco;
             _pedido.ClienteId = cliente.Id;
+            _pedido.Cliente = cliente;
         }
 
         public Pedido Build()
