@@ -56,6 +56,7 @@ namespace Hungry.Core
 
         public override void Create()
         {
+            Validar();
             using (var conn = DbContext.DbConnectionFactory.GetInstance())
             {
                 using (var tr = conn.BeginTransaction())
@@ -79,6 +80,7 @@ namespace Hungry.Core
         public static Pedido GetFullById(int id)
         {
             var pedido = GetById(id);
+            pedido.Cliente = Cliente.GetById(pedido.ClienteId);
 
             using (var conn = DbContext.DbConnectionFactory.GetInstance())
             {
@@ -95,7 +97,7 @@ namespace Hungry.Core
 
             using (var conn = DbContext.DbConnectionFactory.GetInstance())
             {
-                var ids = conn.Query<int>("select top 3 id from " + nameof(Pedido) + " where clienteid = @clienteId order by id desc", new { clienteId });
+                var ids = conn.Query<int>("select top 3 id from " + nameof(Pedido) + " where clienteid = @clienteId order by DataHoraCriacao desc", new { clienteId });
 
                 foreach (var id in ids)
                 {

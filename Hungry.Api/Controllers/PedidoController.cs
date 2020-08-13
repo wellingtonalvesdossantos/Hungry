@@ -13,9 +13,23 @@ namespace Hungry.Api.Controllers
     public class PedidoController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<Pedido> Get(int clientId)
+        public IEnumerable<Pedido> GetByCustomer(int clientId)
         {
             return Pedido.GetByCustomer(clientId);
+        }
+
+        [HttpPost]
+        public ActionResult AddNewOrder(Pedido pedido)
+        {
+            try
+            {
+                pedido.Create();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
